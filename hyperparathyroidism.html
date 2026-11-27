@@ -1,0 +1,771 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hyperparathyroidism (Primary, Secondary &amp; Tertiary) — Calcium Axis Brief</title>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    body { font-family: 'Inter', system-ui, -apple-system, sans-serif; }
+    .node-btn { transition: all 0.2s ease; cursor: pointer; }
+    .node-btn:hover { transform: translateY(-2px); }
+    .node-active { box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.35); border-color: #2563eb !important; }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased min-h-screen">
+  <div class="max-w-5xl mx-auto px-4 py-6 sm:px-6 lg:px-8">
+    <!-- Header -->
+    <header class="bg-white rounded-2xl border border-slate-200 shadow-sm p-5 sm:p-6 mb-5">
+      <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+        <div>
+          <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-blue-50 text-blue-700 border border-blue-200 mb-2">
+            Endourology &amp; Metabolic Bone-Mineral Brief
+          </span>
+          <h1 class="text-xl sm:text-2xl font-bold text-slate-900 tracking-tight">
+            Hyperparathyroidism (Primary, Secondary &amp; Tertiary) &amp; The Calcium Axis
+          </h1>
+          <p class="text-sm text-slate-600 mt-1">
+            PTH–Calcitriol–FGF23 regulation, stone-forming spillover, FHH differentiation, and medical vs. surgical pathways.
+          </p>
+        </div>
+        <div class="flex flex-wrap gap-2 text-xs">
+          <div class="bg-blue-50 rounded-lg px-3 py-2 border border-blue-200">
+            <div class="text-blue-700 font-medium">Primary (PHPT)</div>
+            <div class="text-slate-900 font-bold">Autonomous · ↑Ca</div>
+          </div>
+          <div class="bg-amber-50 rounded-lg px-3 py-2 border border-amber-200">
+            <div class="text-amber-700 font-medium">Secondary (SHPT)</div>
+            <div class="text-slate-900 font-bold">Compensatory · ↓/N Ca</div>
+          </div>
+          <div class="bg-purple-50 rounded-lg px-3 py-2 border border-purple-200">
+            <div class="text-purple-700 font-medium">Tertiary (THPT)</div>
+            <div class="text-slate-900 font-bold">Post-CKD Auto · ↑Ca</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Navigation Tabs -->
+      <nav class="flex flex-wrap gap-2 mt-5 pt-4 border-t border-slate-100" aria-label="Brief sections">
+        <button type="button" data-tab="axis" class="tab-btn px-3.5 py-2 rounded-lg text-sm font-semibold bg-blue-600 text-white shadow-sm">
+          1. Types &amp; Calcium Axis
+        </button>
+        <button type="button" data-tab="diagnosis" class="tab-btn px-3.5 py-2 rounded-lg text-sm font-semibold bg-slate-100 text-slate-700 hover:bg-slate-200">
+          2. Lab Differential &amp; CCCR
+        </button>
+        <button type="button" data-tab="management" class="tab-btn px-3.5 py-2 rounded-lg text-sm font-semibold bg-slate-100 text-slate-700 hover:bg-slate-200">
+          3. Medical &amp; Surgical Care
+        </button>
+        <button type="button" data-tab="refs" class="tab-btn px-3.5 py-2 rounded-lg text-sm font-semibold bg-slate-100 text-slate-700 hover:bg-slate-200">
+          4. Sources
+        </button>
+      </nav>
+    </header>
+
+    <!-- TAB 1: TYPES & INTERACTIVE CALCIUM AXIS -->
+    <section id="tab-axis" class="tab-panel space-y-5">
+      <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-5 sm:p-6">
+        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-4">
+          <div>
+            <h2 class="text-lg font-bold text-slate-900">Interactive Calcium–Phosphate Axis by HPT Type</h2>
+            <p class="text-xs sm:text-sm text-slate-600">Switch HPT type, then click any organ node to inspect its pathophysiology.</p>
+          </div>
+          <div class="inline-flex rounded-xl bg-slate-100 p-1 border border-slate-200" role="group" aria-label="Hyperparathyroidism type">
+            <button type="button" data-hpt="primary" class="hpt-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-white text-blue-700 shadow-sm">Primary</button>
+            <button type="button" data-hpt="secondary" class="hpt-btn px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-600 hover:text-slate-900">Secondary</button>
+            <button type="button" data-hpt="tertiary" class="hpt-btn px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-600 hover:text-slate-900">Tertiary</button>
+          </div>
+        </div>
+
+        <div id="hpt-banner" class="mb-4 rounded-xl border p-3.5 text-xs sm:text-sm">
+          <!-- Populated by JS -->
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 items-start">
+          <!-- Interactive Nodes -->
+          <div class="lg:col-span-7 bg-slate-50 rounded-xl border border-slate-200 p-4">
+            <div class="grid grid-cols-2 gap-3 mb-3">
+              <button type="button" data-node="parathyroid" class="node-btn node-active col-span-2 bg-white border-2 border-blue-600 rounded-xl p-3 text-left flex items-center justify-between">
+                <div>
+                  <div class="text-xs font-semibold uppercase tracking-wider text-blue-600" id="lbl-para-tag">Parathyroid Glands</div>
+                  <div class="text-sm sm:text-base font-bold text-slate-900" id="lbl-para-title">Parathyroid Glands (iPTH)</div>
+                  <div class="text-xs text-slate-500" id="lbl-para-sub">CaSR feedback &amp; clonal/hyperplastic drive</div>
+                </div>
+                <span class="text-xl" aria-hidden="true">🧬</span>
+              </button>
+            </div>
+
+            <div class="flex justify-center my-1">
+              <svg viewBox="0 0 360 36" class="w-full max-w-md h-8" aria-hidden="true">
+                <line x1="180" y1="0" x2="180" y2="14" stroke="#64748b" stroke-width="2" />
+                <line x1="55" y1="14" x2="305" y2="14" stroke="#64748b" stroke-width="2" />
+                <line x1="55" y1="14" x2="55" y2="30" stroke="#64748b" stroke-width="2" />
+                <line x1="180" y1="14" x2="180" y2="30" stroke="#64748b" stroke-width="2" />
+                <line x1="305" y1="14" x2="305" y2="30" stroke="#64748b" stroke-width="2" />
+                <polygon points="51,28 59,28 55,35" fill="#64748b" />
+                <polygon points="176,28 184,28 180,35" fill="#64748b" />
+                <polygon points="301,28 309,28 305,35" fill="#64748b" />
+              </svg>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+              <button type="button" data-node="bone" class="node-btn bg-white border border-slate-300 rounded-xl p-3 text-left">
+                <div class="text-xs font-semibold text-amber-700">Skeletal Axis</div>
+                <div class="text-sm font-bold text-slate-900 mt-0.5">Bone</div>
+                <div class="text-xs text-slate-500 mt-1" id="lbl-bone-sub">Resorption &amp; osteodystrophy</div>
+              </button>
+
+              <button type="button" data-node="kidney" class="node-btn bg-white border border-slate-300 rounded-xl p-3 text-left">
+                <div class="text-xs font-semibold text-emerald-700">Renal &amp; FGF23</div>
+                <div class="text-sm font-bold text-slate-900 mt-0.5">Kidney</div>
+                <div class="text-xs text-slate-500 mt-1" id="lbl-kidney-sub">Calcitriol, TALH/DCT &amp; stones</div>
+              </button>
+
+              <button type="button" data-node="gut" class="node-btn bg-white border border-slate-300 rounded-xl p-3 text-left">
+                <div class="text-xs font-semibold text-indigo-700">Absorptive Axis</div>
+                <div class="text-sm font-bold text-slate-900 mt-0.5">Intestine</div>
+                <div class="text-xs text-slate-500 mt-1" id="lbl-gut-sub">1,25-(OH)₂D Ca²⁺ uptake</div>
+              </button>
+            </div>
+          </div>
+
+          <!-- Detail Panel -->
+          <div id="node-detail" class="lg:col-span-5 bg-blue-50/60 rounded-xl border border-blue-200 p-4 sm:p-5">
+            <!-- Populated by JS -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Biochemical Comparison Table -->
+      <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-5 sm:p-6 overflow-x-auto">
+        <h3 class="text-base font-bold text-slate-900 mb-3">Biochemical Comparison Across Hyperparathyroidism</h3>
+        <table class="w-full text-left border-collapse text-xs sm:text-sm">
+          <thead>
+            <tr class="border-b border-slate-200 text-slate-500">
+              <th class="py-2 pr-3 font-semibold">Condition</th>
+              <th class="py-2 px-3 font-semibold">Serum Ca²⁺</th>
+              <th class="py-2 px-3 font-semibold">Intact PTH</th>
+              <th class="py-2 px-3 font-semibold">Serum PO₄³⁻</th>
+              <th class="py-2 px-3 font-semibold">Urine Ca²⁺ / Stones</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-slate-100 text-slate-700">
+            <tr>
+              <td class="py-2.5 pr-3 font-semibold text-slate-900">Primary HPT (PHPT)</td>
+              <td class="py-2.5 px-3"><span class="px-2 py-0.5 rounded bg-rose-50 text-rose-700 font-semibold">↑ High</span></td>
+              <td class="py-2.5 px-3">↑ High / Inapp. Normal</td>
+              <td class="py-2.5 px-3">↓ Low / Low-Normal</td>
+              <td class="py-2.5 px-3">↑ Hypercalciuria · Mixed CaOx/CaP stones</td>
+            </tr>
+            <tr>
+              <td class="py-2.5 pr-3 font-semibold text-slate-900">Secondary HPT (Vit D Def.)</td>
+              <td class="py-2.5 px-3"><span class="px-2 py-0.5 rounded bg-amber-50 text-amber-700 font-semibold">↓ Low / Normal</span></td>
+              <td class="py-2.5 px-3">↑ Compensatory High</td>
+              <td class="py-2.5 px-3">↓ Low / Normal</td>
+              <td class="py-2.5 px-3">↓ Hypocalciuria (seen in 8.4% of low-Vit-D CaOx stone formers)</td>
+            </tr>
+            <tr>
+              <td class="py-2.5 pr-3 font-semibold text-slate-900">Secondary HPT (CKD-MBD)</td>
+              <td class="py-2.5 px-3"><span class="px-2 py-0.5 rounded bg-amber-50 text-amber-700 font-semibold">↓ Low / Normal</span></td>
+              <td class="py-2.5 px-3">↑↑ Markedly High</td>
+              <td class="py-2.5 px-3"><span class="px-2 py-0.5 rounded bg-rose-50 text-rose-700 font-semibold">↑ High</span></td>
+              <td class="py-2.5 px-3">↓ Oliguria · Vascular/extraosseous calcification</td>
+            </tr>
+            <tr>
+              <td class="py-2.5 pr-3 font-semibold text-slate-900">Tertiary HPT (Post-CKD)</td>
+              <td class="py-2.5 px-3"><span class="px-2 py-0.5 rounded bg-rose-50 text-rose-700 font-semibold">↑ High</span></td>
+              <td class="py-2.5 px-3">↑↑ 10–20× ULN</td>
+              <td class="py-2.5 px-3">↑ High (dialysis) / ↓ Low (post-tx)</td>
+              <td class="py-2.5 px-3">↑ Hypercalciuria post-transplant · Nephrocalcinosis</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- TAB 2: DIFFERENTIAL DIAGNOSIS & CCCR -->
+    <section id="tab-diagnosis" class="tab-panel hidden space-y-5">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-5">
+        <!-- Interactive Case Classifier -->
+        <div class="lg:col-span-6 bg-white rounded-2xl border border-slate-200 shadow-sm p-5 sm:p-6">
+          <h2 class="text-lg font-bold text-slate-900 mb-1">Biochemical Pattern Classifier</h2>
+          <p class="text-xs text-slate-600 mb-4">Select a lab profile to see the likely diagnosis and next diagnostic step.</p>
+
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5 mb-4">
+            <div>
+              <label for="pat-ca" class="block text-xs font-semibold text-slate-700 mb-1">Serum Calcium</label>
+              <select id="pat-ca" class="w-full rounded-lg border border-slate-300 px-2.5 py-2 text-xs sm:text-sm bg-white">
+                <option value="high">Elevated (↑)</option>
+                <option value="normal">Normal</option>
+                <option value="low">Low (↓)</option>
+              </select>
+            </div>
+            <div>
+              <label for="pat-pth" class="block text-xs font-semibold text-slate-700 mb-1">Intact PTH</label>
+              <select id="pat-pth" class="w-full rounded-lg border border-slate-300 px-2.5 py-2 text-xs sm:text-sm bg-white">
+                <option value="high">Elevated (↑)</option>
+                <option value="normal">Normal</option>
+                <option value="low">Suppressed (↓)</option>
+              </select>
+            </div>
+            <div>
+              <label for="pat-ckd" class="block text-xs font-semibold text-slate-700 mb-1">Clinical Context</label>
+              <select id="pat-ckd" class="w-full rounded-lg border border-slate-300 px-2.5 py-2 text-xs sm:text-sm bg-white">
+                <option value="none">No CKD / Post-Tx</option>
+                <option value="ckd">CKD / Dialysis</option>
+                <option value="tx">Post-Renal Transplant</option>
+              </select>
+            </div>
+          </div>
+
+          <div id="pattern-output" class="rounded-xl border p-4 text-sm">
+            <!-- Populated by JS -->
+          </div>
+
+          <div class="mt-4 p-3 rounded-xl bg-slate-50 border border-slate-200 text-xs text-slate-600 space-y-1">
+            <div><strong>Vitamin D Repletion:</strong> Replete 25-OH Vitamin D to <strong>&gt; 30 ng/mL</strong> before diagnosing NPHPT (<a href="https://www.ncbi.nlm.nih.gov/books/NBK441895/" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:underline">StatPearls</a>).</div>
+            <div><strong>Drug Washout:</strong> Hold biotin, thiazides, and lithium several weeks prior to retesting (<a href="https://www.ncbi.nlm.nih.gov/books/NBK441895/" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:underline">StatPearls</a>).</div>
+          </div>
+        </div>
+
+        <!-- CCCR Calculator -->
+        <div class="lg:col-span-6 bg-white rounded-2xl border border-slate-200 shadow-sm p-5 sm:p-6">
+          <div class="flex items-center justify-between mb-2">
+            <h2 class="text-lg font-bold text-slate-900">CCCR Calculator (PHPT vs. FHH)</h2>
+            <button type="button" id="cccr-reset" class="text-xs font-semibold text-blue-600 hover:text-blue-800">
+              Load PHPT Example
+            </button>
+          </div>
+          <p class="text-xs text-slate-600 mb-4">
+            <code class="bg-slate-100 px-1.5 py-0.5 rounded text-slate-800 font-mono">(Urine Ca × Serum Cr) / (Serum Ca × Urine Cr)</code> (mg/dL).
+          </p>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
+            <div>
+              <label for="u-ca" class="block text-xs font-semibold text-slate-700 mb-1">24h Urine Calcium (mg/dL)</label>
+              <input id="u-ca" type="number" step="0.1" min="0" value="18.0" class="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
+            </div>
+            <div>
+              <label for="s-cr" class="block text-xs font-semibold text-slate-700 mb-1">Serum Creatinine (mg/dL)</label>
+              <input id="s-cr" type="number" step="0.01" min="0" value="0.95" class="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
+            </div>
+            <div>
+              <label for="s-ca" class="block text-xs font-semibold text-slate-700 mb-1">Serum Calcium (mg/dL)</label>
+              <input id="s-ca" type="number" step="0.1" min="0" value="11.2" class="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
+            </div>
+            <div>
+              <label for="u-cr" class="block text-xs font-semibold text-slate-700 mb-1">24h Urine Creatinine (mg/dL)</label>
+              <input id="u-cr" type="number" step="0.1" min="0" value="62.0" class="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
+            </div>
+          </div>
+
+          <div id="cccr-output" class="rounded-xl border p-4">
+            <!-- Populated by JS -->
+          </div>
+
+          <p class="mt-3 text-xs text-slate-500 leading-relaxed">
+            <strong>Gray Zone:</strong> Up to ~40% of PHPT or FHH cases fall between 0.01–0.02; ~20% of PHPT have CCCR &lt; 0.01 and ~10% of FHH exceed 0.02 (<a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC10515122/" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:underline">PMC10515122</a>). Confirm ambiguous cases with <em>CASR</em> genetic testing.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 3: MEDICAL & SURGICAL MANAGEMENT -->
+    <section id="tab-management" class="tab-panel hidden space-y-5">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-5">
+        <!-- PHPT Surgical Criteria -->
+        <div class="lg:col-span-6 bg-white rounded-2xl border border-slate-200 shadow-sm p-5 sm:p-6">
+          <div class="flex items-center justify-between mb-3">
+            <h2 class="text-lg font-bold text-slate-900">PHPT Parathyroidectomy Criteria</h2>
+            <button type="button" id="surg-clear" class="text-xs font-semibold text-slate-500 hover:text-slate-800">Clear All</button>
+          </div>
+          <div class="space-y-2 mb-4" id="surg-list">
+            <label class="flex items-start gap-2.5 p-2.5 rounded-xl border border-slate-200 hover:bg-slate-50 cursor-pointer">
+              <input type="checkbox" class="surg-chk mt-0.5 h-4 w-4 text-blue-600 rounded" checked />
+              <span class="text-xs sm:text-sm text-slate-800"><strong>Symptomatic Stones / Nephrocalcinosis</strong></span>
+            </label>
+            <label class="flex items-start gap-2.5 p-2.5 rounded-xl border border-slate-200 hover:bg-slate-50 cursor-pointer">
+              <input type="checkbox" class="surg-chk mt-0.5 h-4 w-4 text-blue-600 rounded" />
+              <span class="text-xs sm:text-sm text-slate-800"><strong>Age &lt; 50 years</strong></span>
+            </label>
+            <label class="flex items-start gap-2.5 p-2.5 rounded-xl border border-slate-200 hover:bg-slate-50 cursor-pointer">
+              <input type="checkbox" class="surg-chk mt-0.5 h-4 w-4 text-blue-600 rounded" />
+              <span class="text-xs sm:text-sm text-slate-800"><strong>Serum Ca &gt; 1.0 mg/dL (0.25 mmol/L)</strong> above ULN</span>
+            </label>
+            <label class="flex items-start gap-2.5 p-2.5 rounded-xl border border-slate-200 hover:bg-slate-50 cursor-pointer">
+              <input type="checkbox" class="surg-chk mt-0.5 h-4 w-4 text-blue-600 rounded" />
+              <span class="text-xs sm:text-sm text-slate-800"><strong>eGFR &lt; 60 mL/min/1.73 m²</strong> or CrCl &lt; 60 mL/min</span>
+            </label>
+            <label class="flex items-start gap-2.5 p-2.5 rounded-xl border border-slate-200 hover:bg-slate-50 cursor-pointer">
+              <input type="checkbox" class="surg-chk mt-0.5 h-4 w-4 text-blue-600 rounded" />
+              <span class="text-xs sm:text-sm text-slate-800"><strong>Hypercalciuria:</strong> &gt; 250 mg/24h (W) or &gt; 300 mg/24h (M)</span>
+            </label>
+            <label class="flex items-start gap-2.5 p-2.5 rounded-xl border border-slate-200 hover:bg-slate-50 cursor-pointer">
+              <input type="checkbox" class="surg-chk mt-0.5 h-4 w-4 text-blue-600 rounded" />
+              <span class="text-xs sm:text-sm text-slate-800"><strong>BMD T-score ≤ −2.5</strong> or vertebral fracture</span>
+            </label>
+          </div>
+          <div id="surg-verdict" class="rounded-xl border p-4 text-xs sm:text-sm"></div>
+        </div>
+
+        <!-- SHPT & THPT Protocols -->
+        <div class="lg:col-span-6 space-y-5">
+          <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-5">
+            <h3 class="text-base font-bold text-slate-900 mb-2">Secondary HPT (SHPT) Management</h3>
+            <ul class="space-y-2 text-xs sm:text-sm text-slate-700">
+              <li>
+                <strong>Non-CKD / Vitamin D Deficiency:</strong> Replete with oral cholecalciferol (Vitamin D3) to restore 25-OH-D &gt; 30 ng/mL (<a href="https://academic.oup.com/edrv/article/45/5/625/7659127" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:underline">Endocrine Consensus</a>).
+              </li>
+              <li>
+                <strong>CKD-MBD Medical Pillars:</strong> Phosphate binders, active vitamin D analogs, and calcimimetics (<strong>cinacalcet, etelcalcetide</strong>) that sensitize CaSR to suppress PTH, Ca, P, and FGF23—reducing calciphylaxis risk (<a href="https://www.ncbi.nlm.nih.gov/books/NBK557822/" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:underline">StatPearls SHPT</a>; <a href="https://www.ncbi.nlm.nih.gov/books/NBK519020/" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:underline">Calciphylaxis</a>).
+              </li>
+              <li>
+                <strong>Surgery in SHPT:</strong> Reserved as last-line for medical failure (severe bone pain, refractory hyperphosphatemia/hypercalcemia, calciphylaxis).
+              </li>
+            </ul>
+          </div>
+
+          <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-5">
+            <h3 class="text-base font-bold text-slate-900 mb-2">Tertiary HPT (THPT) &amp; Post-Op Vigilance</h3>
+            <ul class="space-y-2 text-xs sm:text-sm text-slate-700">
+              <li>
+                <strong>THPT Surgical Imperative:</strong> Autonomous nodular glands rarely respond durably to medications; <strong>parathyroidectomy</strong> is recommended when no surgical contraindications exist (<a href="https://www.frontiersin.org/journals/endocrinology/articles/10.3389/fendo.2022.1059828/full" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:underline">Frontiers Endocrinol</a>).
+              </li>
+              <li>
+                <strong>Post-Op Hypocalcemia &amp; Hungry Bone:</strong> Transient hypocalcemia occurs in ~50% of cases; <strong>Hungry Bone Syndrome</strong> (up to 10%) requires aggressive IV/oral calcium plus calcitriol (<a href="https://www.ncbi.nlm.nih.gov/books/NBK441895/" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:underline">StatPearls</a>).
+              </li>
+              <li>
+                <strong>Post-Op Stone Follow-Up:</strong> Repeat 24-hour urine collection; maintain urine output &gt; 2.5 L/day, low sodium, and add potassium citrate or thiazides if hypercalciuria/hypocitraturia persists (<a href="https://www.renalfellow.org/2020/07/20/skeleton-key-group-electrolyte-case-10/" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:underline">Renal Fellow Network</a>).
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 4: REFERENCES -->
+    <section id="tab-refs" class="tab-panel hidden">
+      <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-5 sm:p-6">
+        <h2 class="text-lg font-bold text-slate-900 mb-3">Verified Clinical References</h2>
+        <div class="divide-y divide-slate-100 text-sm">
+          <div class="py-3">
+            <a href="https://www.ncbi.nlm.nih.gov/books/NBK441895/" target="_blank" rel="noopener noreferrer" class="font-semibold text-blue-600 hover:underline">
+              Primary Hyperparathyroidism — StatPearls (NCBI Bookshelf)
+            </a>
+            <p class="text-slate-600 text-xs mt-1">PHPT etiology, CaSR set-point shift, NPHPT/NH-PHPT, surgical criteria, and hungry bone syndrome.</p>
+          </div>
+          <div class="py-3">
+            <a href="https://www.ncbi.nlm.nih.gov/books/NBK557822/" target="_blank" rel="noopener noreferrer" class="font-semibold text-blue-600 hover:underline">
+              Secondary Hyperparathyroidism — StatPearls (NCBI Bookshelf)
+            </a>
+            <p class="text-slate-600 text-xs mt-1">Vitamin D deficiency &amp; CKD-MBD pathophysiology, vascular calcification, calcimimetics (EVOLVE), and surgical indications.</p>
+          </div>
+          <div class="py-3">
+            <a href="https://www.frontiersin.org/journals/endocrinology/articles/10.3389/fendo.2022.1059828/full" target="_blank" rel="noopener noreferrer" class="font-semibold text-blue-600 hover:underline">
+              Advances in the treatment of secondary and tertiary hyperparathyroidism — Frontiers in Endocrinology
+            </a>
+            <p class="text-slate-600 text-xs mt-1">Autonomous nodular secretion in THPT and surgical management paradigms.</p>
+          </div>
+          <div class="py-3">
+            <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC10515122/" target="_blank" rel="noopener noreferrer" class="font-semibold text-blue-600 hover:underline">
+              Primary hyperparathyroidism: clinical manifestations, diagnosis and management (PMC10515122)
+            </a>
+            <p class="text-slate-600 text-xs mt-1">CCCR cutoffs (&lt; 0.01 vs &gt; 0.02), FHH overlap gray zone (~40%), and drug confounders.</p>
+          </div>
+          <div class="py-3">
+            <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC12517434/" target="_blank" rel="noopener noreferrer" class="font-semibold text-blue-600 hover:underline">
+              Prevalence of vitamin D deficiency and insufficiency in calcium oxalate stone formers (PMC12517434)
+            </a>
+            <p class="text-slate-600 text-xs mt-1">64% low vitamin D in CaOx stone formers, with 8.4% exhibiting secondary hyperparathyroidism.</p>
+          </div>
+          <div class="py-3">
+            <a href="https://www.renalfellow.org/2020/07/20/skeleton-key-group-electrolyte-case-10/" target="_blank" rel="noopener noreferrer" class="font-semibold text-blue-600 hover:underline">
+              Skeleton Key Group: Electrolyte Case #10 — Renal Fellow Network
+            </a>
+            <p class="text-slate-600 text-xs mt-1">Dual calcium axis (PTH &amp; calcitriol), TALH/DCT reabsorption, and post-op 24-hour urine stone prevention.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    (function () {
+      const hptConfigs = {
+        primary: {
+          bannerClass: 'border-blue-200 bg-blue-50 text-slate-800',
+          bannerHtml: '<strong>Primary Hyperparathyroidism (PHPT):</strong> Autonomous PTH overproduction (80%–85% single adenoma, 10%–15% multigland hyperplasia, &lt;1% carcinoma) shifts the Ca–PTH set-point upward, driving <strong>hypercalcemia, hypophosphatemia, and hypercalciuric stone spillover</strong>.',
+          paraTitle: 'Parathyroid Adenoma / Hyperplasia',
+          paraSub: 'Autonomous iPTH · Upward CaSR set-point shift',
+          boneSub: 'Osteoclastic Ca²⁺ & PO₄³⁻ efflux',
+          kidneySub: '↑ Calcitriol · TALH/DCT · Hypercalciuria',
+          gutSub: '↑ Calcitriol-driven Ca²⁺ absorption',
+          nodes: {
+            parathyroid: {
+              badge: 'PHPT · Primary Driver',
+              title: 'Autonomous PTH Overproduction',
+              summary: 'Reduced CaSR expression on clonal parathyroid chief cells shifts the calcium-inhibition set-point upward, causing persistent iPTH secretion despite hypercalcemia.',
+              bullets: [
+                'Single adenoma (80%–85%), multigland hyperplasia (10%–15%), carcinoma (<1%).',
+                'Up to ~10% are hereditary (MEN1, MEN2A, CDC73); test patients <30 yrs or with multigland disease.'
+              ],
+              link: 'https://www.ncbi.nlm.nih.gov/books/NBK441895/',
+              linkText: 'StatPearls: PHPT'
+            },
+            bone: {
+              badge: 'PHPT · Resorptive Axis',
+              title: 'Osteoclastic Bone Mobilization',
+              summary: 'Chronically elevated PTH stimulates osteoclastic resorption, releasing skeletal calcium and phosphate into extracellular fluid.',
+              bullets: [
+                'Preferentially thins cortical bone (distal 1/3 radius, hip, lumbar spine).',
+                'BMD T-score ≤ −2.5 or vertebral fracture meets surgical criteria for parathyroidectomy.'
+              ],
+              link: 'https://www.ncbi.nlm.nih.gov/books/NBK441895/',
+              linkText: 'StatPearls: Skeletal Criteria'
+            },
+            kidney: {
+              badge: 'PHPT · Renal Axis',
+              title: '1α-Hydroxylase & Hypercalciuric Spillover',
+              summary: 'PTH stimulates proximal tubular 1α-hydroxylase (calcitriol synthesis) and augments TALH/DCT calcium reabsorption, yet hypercalcemic filtered load overwhelms tubular capacity.',
+              bullets: [
+                'Net hypercalciuria (>250 mg/d W, >300 mg/d M) + PTH-induced phosphaturia.',
+                'Drives mixed calcium oxalate and calcium phosphate (apatite/brushite) stones.'
+              ],
+              link: 'https://www.renalfellow.org/2020/07/20/skeleton-key-group-electrolyte-case-10/',
+              linkText: 'Renal Fellow Network: TALH/DCT'
+            },
+            gut: {
+              badge: 'PHPT · Absorptive Axis',
+              title: 'Calcitriol-Driven Intestinal Uptake',
+              summary: 'Elevated 1,25-(OH)₂ Vitamin D₃ upregulates active transcellular calcium absorption in the duodenum and jejunum, compounding hypercalcemia.',
+              bullets: [
+                'Forms the second arm of the dual calcium axis alongside bone resorption.',
+                'Feeds the filtered renal calcium load that precipitates nephrolithiasis.'
+              ],
+              link: 'https://pmc.ncbi.nlm.nih.gov/articles/PMC8707627/',
+              linkText: 'PMC8707627: Intestinal Transport'
+            }
+          }
+        },
+        secondary: {
+          bannerClass: 'border-amber-200 bg-amber-50 text-slate-800',
+          bannerHtml: '<strong>Secondary Hyperparathyroidism (SHPT):</strong> Compensatory parathyroid hyperplasia driven by <strong>hypocalcemia, Vitamin D deficiency (seen in 8.4% of low-Vit-D CaOx stone formers), or CKD hyperphosphatemia &amp; FGF23 elevation</strong>. Serum Ca²⁺ is low or normal.',
+          paraTitle: 'Compensatory Parathyroid Hyperplasia',
+          paraSub: 'Driven by ↓Ca²⁺, ↓25-OH-D, or ↑PO₄³⁻',
+          boneSub: 'Renal osteodystrophy / osteomalacia',
+          kidneySub: 'CKD: ↓1α-hydroxylase & ↑FGF23/Klotho',
+          gutSub: 'Impaired Ca²⁺ uptake (↓1,25-D)',
+          nodes: {
+            parathyroid: {
+              badge: 'SHPT · Compensatory Drive',
+              title: 'Physiologic Response to Hypocalcemia / CKD',
+              summary: 'Low ionized calcium, low calcitriol, and hyperphosphatemia stimulate diffuse polyclonal parathyroid hyperplasia and high iPTH secretion.',
+              bullets: [
+                'Common in Vitamin D deficiency (64% of CaOx stone formers have low Vit D; 8.4% develop SHPT).',
+                'In CKD, phosphate retention and low calcitriol progressively amplify PTH output.'
+              ],
+              link: 'https://www.ncbi.nlm.nih.gov/books/NBK557822/',
+              linkText: 'StatPearls: SHPT'
+            },
+            bone: {
+              badge: 'SHPT · Skeletal Impact',
+              title: 'Renal Osteodystrophy & High-Turnover Bone',
+              summary: 'Sustained PTH excess accelerates bone remodeling and mineralization defects (osteitis fibrosa cystica, osteomalacia, or mixed osteodystrophy).',
+              bullets: [
+                'Mobilizes bone mineral without correcting underlying CKD phosphate retention.',
+                'Raises extraosseous calcium-phosphate product, driving vascular calcification.'
+              ],
+              link: 'https://www.ncbi.nlm.nih.gov/books/NBK557822/',
+              linkText: 'StatPearls: Osteodystrophy'
+            },
+            kidney: {
+              badge: 'SHPT · FGF23 & Renal Loss',
+              title: 'FGF23 Elevation & Impaired 1α-Hydroxylase',
+              summary: 'In CKD, declining nephron mass impairs 1α-hydroxylase; concurrently, rising FGF23 (with cofactor Klotho) suppresses NaPi-II phosphate transporters and further inhibits 1,25-(OH)₂D synthesis.',
+              bullets: [
+                'Non-CKD SHPT (e.g., gut malabsorption, loop diuretics, renal Ca leak) may still present with stones.',
+                'CKD-SHPT causes oliguria and coronary/soft-tissue calcification rather than stones.'
+              ],
+              link: 'https://www.ncbi.nlm.nih.gov/books/NBK493172/',
+              linkText: 'StatPearls: FGF23 & Klotho'
+            },
+            gut: {
+              badge: 'SHPT · Impaired Uptake',
+              title: 'Reduced Intestinal Calcium Absorption',
+              summary: 'Deficiency of active 1,25-(OH)₂D (from low 25-OH-D substrate or failed renal 1α-hydroxylation) blunts duodenal transcellular calcium absorption.',
+              bullets: [
+                'Maintains negative calcium balance, perpetuating the hypocalcemic signal to the parathyroids.',
+                'Corrected with cholecalciferol (non-CKD) or active vitamin D analogs (CKD).'
+              ],
+              link: 'https://www.ncbi.nlm.nih.gov/books/NBK557822/',
+              linkText: 'StatPearls: SHPT Gut Axis'
+            }
+          }
+        },
+        tertiary: {
+          bannerClass: 'border-purple-200 bg-purple-50 text-slate-800',
+          bannerHtml: '<strong>Tertiary Hyperparathyroidism (THPT):</strong> Autonomous, nodular parathyroid hypersecretion (often 10–20× ULN) developing after prolonged CKD-SHPT—frequently persisting <strong>after successful renal transplantation</strong> and causing hypercalcemia and allograft nephrocalcinosis.',
+          paraTitle: 'Autonomous Nodular Hyperplasia',
+          paraSub: 'Refractory to Ca²⁺ feedback · PTH 10–20× ULN',
+          boneSub: 'Severe bone loss & fracture risk',
+          kidneySub: 'Post-Tx: ↑GFR + ↑Ca → Nephrocalcinosis',
+          gutSub: 'Restored 1α-hydroxylase → ↑1,25-D',
+          nodes: {
+            parathyroid: {
+              badge: 'THPT · Autonomous Evolution',
+              title: 'Monoclonal Nodular Autonomy',
+              summary: 'Years of chronic uremic stimulation transform diffuse SHPT hyperplasia into autonomous parathyroid nodules with markedly reduced CaSR and VDR density.',
+              bullets: [
+                'PTH remains persistently elevated (often 10–20× normal) even after hypercalcemia develops.',
+                'Medical therapy rarely controls autonomous nodules; parathyroidectomy is definitive.'
+              ],
+              link: 'https://www.frontiersin.org/journals/endocrinology/articles/10.3389/fendo.2022.1059828/full',
+              linkText: 'Frontiers: THPT Autonomy'
+            },
+            bone: {
+              badge: 'THPT · Skeletal & Vascular',
+              title: 'Accelerated Bone Loss & Calcification',
+              summary: 'Unchecked PTH drives severe osteoclastic bone loss alongside extraosseous and vascular calcification, increasing cardiovascular mortality.',
+              bullets: [
+                'Post-transplant corticosteroids compound cortical and trabecular bone loss.',
+                'High risk of Hungry Bone Syndrome following definitive parathyroidectomy.'
+              ],
+              link: 'https://www.mdpi.com/2227-9059/13/11/2604',
+              linkText: 'MDPI: THPT Outcomes'
+            },
+            kidney: {
+              badge: 'THPT · Allograft Risk',
+              title: 'Post-Transplant Hypercalciuria & Stones',
+              summary: 'A functioning renal allograft restores 1α-hydroxylase and GFR, converting persistent PTH autonomy into hypercalcemia, hypophosphatemia, hypercalciuria, and allograft nephrocalcinosis.',
+              bullets: [
+                'Threatens long-term renal allograft survival via tubular calcium deposition.',
+                'Distinguished from PHPT by prior history of prolonged ESRD/dialysis.'
+              ],
+              link: 'https://www.mdpi.com/2227-9059/13/11/2604',
+              linkText: 'MDPI: THPT & Transplant'
+            },
+            gut: {
+              badge: 'THPT · Restored Absorption',
+              title: 'Surge in Calcitriol-Mediated Uptake',
+              summary: 'Once the transplanted kidney restores 1α-hydroxylase activity under high autonomous PTH stimulation, calcitriol surges and boosts gut calcium absorption.',
+              bullets: [
+                'Accelerates post-transplant hypercalcemia alongside ongoing bone resorption.',
+                'Requires close post-transplant Ca/PTH monitoring and timely parathyroidectomy.'
+              ],
+              link: 'https://www.ncbi.nlm.nih.gov/books/NBK493172/',
+              linkText: 'StatPearls: Post-Tx Ca/P'
+            }
+          }
+        }
+      };
+
+      let currentHpt = 'primary';
+      let currentNode = 'parathyroid';
+
+      const tabBtns = document.querySelectorAll('.tab-btn');
+      const tabPanels = document.querySelectorAll('.tab-panel');
+      tabBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          const target = btn.getAttribute('data-tab');
+          tabBtns.forEach(b => {
+            b.classList.remove('bg-blue-600', 'text-white', 'shadow-sm');
+            b.classList.add('bg-slate-100', 'text-slate-700');
+          });
+          btn.classList.add('bg-blue-600', 'text-white', 'shadow-sm');
+          btn.classList.remove('bg-slate-100', 'text-slate-700');
+          tabPanels.forEach(p => p.classList.toggle('hidden', p.id !== 'tab-' + target));
+        });
+      });
+
+      const hptBtns = document.querySelectorAll('.hpt-btn');
+      const hptBanner = document.getElementById('hpt-banner');
+      const nodeBtns = document.querySelectorAll('.node-btn');
+      const nodeDetail = document.getElementById('node-detail');
+
+      function renderAxis() {
+        const cfg = hptConfigs[currentHpt];
+        hptBanner.className = 'mb-4 rounded-xl border p-3.5 text-xs sm:text-sm ' + cfg.bannerClass;
+        hptBanner.innerHTML = cfg.bannerHtml;
+        document.getElementById('lbl-para-title').textContent = cfg.paraTitle;
+        document.getElementById('lbl-para-sub').textContent = cfg.paraSub;
+        document.getElementById('lbl-bone-sub').textContent = cfg.boneSub;
+        document.getElementById('lbl-kidney-sub').textContent = cfg.kidneySub;
+        document.getElementById('lbl-gut-sub').textContent = cfg.gutSub;
+
+        const d = cfg.nodes[currentNode];
+        nodeDetail.innerHTML = `
+          <span class="inline-block text-xs font-semibold text-blue-700 bg-blue-100 px-2 py-0.5 rounded mb-2">${d.badge}</span>
+          <h3 class="text-base font-bold text-slate-900 mb-2">${d.title}</h3>
+          <p class="text-sm text-slate-700 leading-relaxed mb-3">${d.summary}</p>
+          <ul class="space-y-1.5 text-xs sm:text-sm text-slate-700 mb-3">
+            ${d.bullets.map(b => `<li class="flex items-start gap-2"><span class="text-blue-600 font-bold">•</span><span>${b}</span></li>`).join('')}
+          </ul>
+          <a href="${d.link}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center text-xs font-semibold text-blue-700 hover:underline">
+            Source: ${d.linkText} ↗
+          </a>
+        `;
+      }
+
+      hptBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          currentHpt = btn.getAttribute('data-hpt');
+          hptBtns.forEach(b => {
+            b.classList.remove('bg-white', 'text-blue-700', 'shadow-sm');
+            b.classList.add('text-slate-600');
+          });
+          btn.classList.add('bg-white', 'text-blue-700', 'shadow-sm');
+          btn.classList.remove('text-slate-600');
+          renderAxis();
+        });
+      });
+
+      nodeBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          currentNode = btn.getAttribute('data-node');
+          nodeBtns.forEach(b => b.classList.remove('node-active'));
+          btn.classList.add('node-active');
+          renderAxis();
+        });
+      });
+      renderAxis();
+
+      // Biochemical Pattern Classifier
+      const patCa = document.getElementById('pat-ca');
+      const patPth = document.getElementById('pat-pth');
+      const patCkd = document.getElementById('pat-ckd');
+      const patOut = document.getElementById('pattern-output');
+
+      function updatePattern() {
+        const ca = patCa.value;
+        const pth = patPth.value;
+        const ckd = patCkd.value;
+        let title = '';
+        let cls = 'rounded-xl border p-4 text-sm ';
+        let desc = '';
+
+        if (ca === 'high' && pth === 'low') {
+          title = 'PTH-Independent Hypercalcemia';
+          cls += 'border-rose-300 bg-rose-50';
+          desc = 'Evaluate for malignancy-related hypercalcemia (PTHrP, osteolytic metastases; affects 20%–30% of cancer patients), vitamin D toxicity, or granulomatous disease (sarcoidosis).';
+        } else if (ca === 'high' && (pth === 'high' || pth === 'normal')) {
+          if (ckd === 'tx' || ckd === 'ckd') {
+            title = 'Tertiary Hyperparathyroidism (THPT)';
+            cls += 'border-purple-300 bg-purple-50';
+            desc = 'Autonomous PTH secretion with hypercalcemia after prolonged CKD-SHPT or post-renal transplant. Evaluate for parathyroidectomy.';
+          } else if (pth === 'normal') {
+            title = 'Normohormonal PHPT (NH-PHPT) vs. FHH';
+            cls += 'border-blue-300 bg-blue-50';
+            desc = 'Inappropriately unsuppressed PTH despite hypercalcemia. Check 24h CCCR to exclude FHH and discontinue thiazides/lithium.';
+          } else {
+            title = 'Classic Primary HPT (PHPT) vs. FHH';
+            cls += 'border-blue-300 bg-blue-50';
+            desc = 'Confirm with ionized calcium, check 25-OH-D (>30 ng/mL), and compute 24h CCCR (>0.02 supports PHPT; <0.01 favors FHH).';
+          }
+        } else if (ca === 'normal' && pth === 'high') {
+          if (ckd === 'ckd') {
+            title = 'Secondary HPT (CKD-MBD)';
+            cls += 'border-amber-300 bg-amber-50';
+            desc = 'Compensatory PTH elevation from CKD phosphate retention and impaired 1α-hydroxylase. Manage with phosphate binders, vitamin D analogs, or calcimimetics.';
+          } else {
+            title = 'Secondary HPT vs. Normocalcemic PHPT (NPHPT)';
+            cls += 'border-amber-300 bg-amber-50';
+            desc = 'First exclude secondary causes (25-OH-D < 30 ng/mL, eGFR < 60, malabsorption, hypercalciuria, bisphosphonates/PPIs/SGLT2i). NPHPT requires ≥3 months of confirmation.';
+          }
+        } else if (ca === 'low' && pth === 'high') {
+          title = 'Secondary Hyperparathyroidism (SHPT)';
+          cls += 'border-amber-300 bg-amber-50';
+          desc = 'Appropriate compensatory PTH surge in response to hypocalcemia from Vitamin D deficiency, GI malabsorption, or CKD.';
+        } else if (ca === 'low' && (pth === 'low' || pth === 'normal')) {
+          title = 'Hypoparathyroidism (HypoPT)';
+          cls += 'border-slate-300 bg-slate-100';
+          desc = 'Inappropriately low/normal PTH with hypocalcemia (most commonly post-surgical neck exploration, autoimmune, or hypomagnesemia).';
+        } else {
+          title = 'Normal Calcium–PTH Homeostasis';
+          cls += 'border-emerald-300 bg-emerald-50';
+          desc = 'Serum calcium and intact PTH are within physiologic feedback equilibrium.';
+        }
+
+        patOut.className = cls;
+        patOut.innerHTML = `<div class="font-bold text-slate-900">${title}</div><p class="text-xs sm:text-sm text-slate-700 mt-1 leading-relaxed">${desc}</p>`;
+      }
+      [patCa, patPth, patCkd].forEach(el => el.addEventListener('change', updatePattern));
+      updatePattern();
+
+      // CCCR Calculator
+      const uCa = document.getElementById('u-ca');
+      const sCr = document.getElementById('s-cr');
+      const sCa = document.getElementById('s-ca');
+      const uCr = document.getElementById('u-cr');
+      const cccrOutput = document.getElementById('cccr-output');
+      const cccrReset = document.getElementById('cccr-reset');
+
+      function updateCCCR() {
+        const vUCa = parseFloat(uCa.value);
+        const vSCr = parseFloat(sCr.value);
+        const vSCa = parseFloat(sCa.value);
+        const vUCr = parseFloat(uCr.value);
+        if (!(vUCa >= 0 && vSCr > 0 && vSCa > 0 && vUCr > 0)) {
+          cccrOutput.className = 'rounded-xl border border-slate-200 bg-slate-50 p-4';
+          cccrOutput.innerHTML = '<div class="text-sm font-medium text-slate-600">Enter positive values for Serum Ca and Urine Cr to compute CCCR.</div>';
+          return;
+        }
+        const ratio = (vUCa * vSCr) / (vSCa * vUCr);
+        let label = '';
+        let cls = '';
+        let note = '';
+        if (ratio < 0.01) {
+          label = 'Favors FHH (< 0.01)';
+          cls = 'rounded-xl border border-amber-300 bg-amber-50 p-4';
+          note = 'Parathyroidectomy is contraindicated in FHH. Verify vitamin D (> 30 ng/mL), hold thiazides/lithium, and consider CASR genetic testing.';
+        } else if (ratio <= 0.02) {
+          label = 'Indeterminate Gray Zone (0.01 – 0.02)';
+          cls = 'rounded-xl border border-indigo-200 bg-indigo-50 p-4';
+          note = 'Correlate with stone history, BMD, family history, and repeat after vitamin D repletion.';
+        } else {
+          label = 'Supports PHPT (> 0.02)';
+          cls = 'rounded-xl border border-emerald-300 bg-emerald-50 p-4';
+          note = 'Consistent with Primary Hyperparathyroidism. Evaluate parathyroidectomy criteria.';
+        }
+        cccrOutput.className = cls;
+        cccrOutput.innerHTML = `
+          <div class="flex items-baseline justify-between gap-2">
+            <span class="text-xs font-semibold uppercase tracking-wider text-slate-600">Calculated CCCR</span>
+            <span class="text-2xl font-bold text-slate-900">${ratio.toFixed(4)}</span>
+          </div>
+          <div class="text-sm font-bold text-slate-900 mt-1">${label}</div>
+          <p class="text-xs text-slate-700 mt-1 leading-relaxed">${note}</p>
+        `;
+      }
+      [uCa, sCr, sCa, uCr].forEach(el => el.addEventListener('input', updateCCCR));
+      cccrReset.addEventListener('click', () => {
+        uCa.value = '18.0'; sCr.value = '0.95'; sCa.value = '11.2'; uCr.value = '62.0';
+        updateCCCR();
+      });
+      updateCCCR();
+
+      // Surgical Checklist
+      const chks = document.querySelectorAll('.surg-chk');
+      const verdict = document.getElementById('surg-verdict');
+      const clearBtn = document.getElementById('surg-clear');
+      function updateSurgery() {
+        const count = Array.from(chks).filter(c => c.checked).length;
+        if (count > 0) {
+          verdict.className = 'rounded-xl border border-emerald-300 bg-emerald-50 p-4 text-xs sm:text-sm';
+          verdict.innerHTML = `<div class="font-bold text-slate-900">Parathyroidectomy Indicated (${count} ${count === 1 ? 'criterion' : 'criteria'} met)</div><p class="text-slate-700 mt-1">Curative surgery normalizes calcium and markedly reduces recurrent nephrolithiasis. Exclude FHH prior to neck exploration.</p>`;
+        } else {
+          verdict.className = 'rounded-xl border border-slate-200 bg-slate-50 p-4 text-xs sm:text-sm';
+          verdict.innerHTML = `<div class="font-bold text-slate-900">No End-Organ Criteria Selected</div><p class="text-slate-600 mt-1">Monitor serum Ca/eGFR annually with periodic DXA/renal imaging, or consider surgery if patient prefers definitive management.</p>`;
+        }
+      }
+      chks.forEach(c => c.addEventListener('change', updateSurgery));
+      clearBtn.addEventListener('click', () => {
+        chks.forEach(c => { c.checked = false; });
+        updateSurgery();
+      });
+      updateSurgery();
+    })();
+  </script>
+</body>
+</html>

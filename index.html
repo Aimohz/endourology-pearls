@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Endourology Pearls Portal — Interactive Library</title>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    body { font-family: 'Inter', system-ui, -apple-system, sans-serif; }
+  </style>
+</head>
+<body class="bg-slate-100 text-slate-800 antialiased h-screen flex flex-col overflow-hidden">
+  <!-- Top Bar -->
+  <header class="bg-slate-900 text-white px-4 py-2.5 flex items-center justify-between gap-3 shrink-0 border-b border-slate-800">
+    <div class="flex items-center gap-2.5 min-w-0">
+      <button type="button" id="sidebar-toggle" class="p-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold shrink-0" aria-label="Toggle library sidebar">
+        ☰ Library
+      </button>
+      <div class="min-w-0">
+        <div class="text-sm sm:text-base font-bold tracking-tight truncate">Endourology Pearls Portal</div>
+        <div id="active-subtitle" class="text-[11px] text-slate-400 truncate">Campbell-Walsh-Wein Urology Interactive Library</div>
+      </div>
+    </div>
+    <div class="flex items-center gap-2 shrink-0">
+      <span id="progress-pill" class="hidden md:inline-flex items-center px-2.5 py-1 rounded-full text-[11px] font-semibold bg-slate-800 text-emerald-300 border border-slate-700">
+        0 / 5 Read
+      </span>
+      <button type="button" id="share-btn" class="px-2.5 py-1.5 rounded-lg text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition">
+        Share Link
+      </button>
+      <button type="button" id="mark-read-btn" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-blue-600 hover:bg-blue-500 text-white transition">
+        Mark as Read
+      </button>
+    </div>
+  </header>
+
+  <!-- Toast -->
+  <div id="toast" class="fixed bottom-4 right-4 z-50 hidden bg-slate-900 text-white text-xs font-semibold px-3.5 py-2.5 rounded-xl shadow-lg border border-slate-700"></div>
+
+  <!-- Main Workspace -->
+  <div class="flex-1 flex min-h-0 relative">
+    <!-- Sidebar Index -->
+    <aside id="sidebar" class="w-80 max-w-[85vw] bg-white border-r border-slate-200 flex flex-col shrink-0 z-20 absolute inset-y-0 left-0 lg:static shadow-xl lg:shadow-none transition-transform duration-200">
+      <div class="p-3 border-b border-slate-100 space-y-2">
+        <input id="search-input" type="search" placeholder="Filter pearls by topic or keyword..." class="w-full rounded-lg border border-slate-300 px-3 py-1.5 text-xs focus:outline-none focus:ring-2 focus:ring-blue-500" />
+        <div class="flex items-center justify-between text-[11px] text-slate-500 px-0.5">
+          <span id="count-label">5 interactive briefs</span>
+          <span>Fast-loading portal</span>
+        </div>
+      </div>
+      <div id="pearl-list" class="flex-1 overflow-y-auto p-2.5 space-y-2"></div>
+      <div class="p-3 border-t border-slate-100 bg-slate-50 text-[11px] text-slate-500 leading-relaxed">
+        Shareable via direct URL parameter (e.g., <code>?p=day34</code>) when hosted on GitHub Pages.
+      </div>
+    </aside>
+
+    <!-- Interactive Pearl Viewer -->
+    <main class="flex-1 flex flex-col min-w-0 bg-slate-50">
+      <iframe id="pearl-viewer" title="Interactive Endourology Pearl" class="w-full flex-1 border-0 bg-slate-50"></iframe>
+    </main>
+  </div>
+
+  <script>
+    (function () {
+      const PEARLS = [{"id": "day34", "badge": "Day 34", "date": "2026-11-27", "category": "Energy & Laser Biophysics", "readTime": "10\u201315 min", "figures": 5, "title": "Energy Modalities in Endourology: Lasers, Thermal Kinetics, Electrosurgery & BWL", "summary": "Photomechanical vs. photothermal laser physics, TFL vs. Ho:YAG, thermal safety calculator, monopolar/bipolar circuits, and BWL.", "url": "pearls/day34.html"}, {"id": "day33", "badge": "Day 33", "date": "2026-11-25", "category": "Endoscopy & Instrumentation", "readTime": "10\u201315 min", "figures": 5, "title": "Principles of Urologic Endoscopy: Optics, Guidewires & Scope Preservation", "summary": "Hopkins rod-lens vs. digital CMOS optics, single-use vs. reusable fURS cost calculator, guidewire buckling forces, and 'riding the rails' access.", "url": "pearls/day33.html"}, {"id": "day32", "badge": "Day 32", "date": "2026-11-23", "category": "Lower Urinary Tract Calculi", "readTime": "10\u201315 min", "figures": 4, "title": "Lower Urinary Tract Calculi: Bladder, Urethral, Prostatic & SV Stones", "summary": "BOO & simultaneous TURP evidence, TUCL vs. PCCL vs. open cystolithotomy, SCI/transplant/diversion bladders, urethral & TRU-SVS stones.", "url": "pearls/day32.html"}, {"id": "day31", "badge": "Day 31", "date": "2026-11-21", "category": "Renal Anatomy & RIRS/PCNL", "readTime": "10\u201315 min", "figures": 5, "title": "Pelvicalyceal Architecture, Br\u00f6del vs. Hodson & Lower Pole Morphometry", "summary": "30\u00b0 renal rotation, Br\u00f6del vs. Hodson calyceal angles, Sampaio A1\u2013B2 & Modified Takazawa 3D subtypes, lower-pole calculator, and antegrade rescue.", "url": "pearls/day31.html"}, {"id": "hyperparathyroidism", "badge": "Metabolic Brief", "date": "2026-11-16", "category": "Metabolic Stone Disease", "readTime": "8\u201310 min", "figures": 0, "title": "Hyperparathyroidism (Primary, Secondary & Tertiary) & The Calcium Axis", "summary": "Interactive PTH\u2013Calcitriol\u2013FGF23 axis across Primary, Secondary, and Tertiary HPT, biochemical pattern classifier, CCCR calculator, and surgical criteria.", "url": "pearls/hyperparathyroidism.html"}];
+      const params = new URLSearchParams(window.location.search);
+      const requested = params.get('p');
+      let activeId = (PEARLS.find(x => x.id === requested) || PEARLS[0]).id;
+      let readSet = new Set();
+
+      try {
+        const saved = JSON.parse(localStorage.getItem('endourology_pearls_read') || '[]');
+        if (Array.isArray(saved)) readSet = new Set(saved);
+      } catch (e) {}
+
+      function saveRead() {
+        try {
+          localStorage.setItem('endourology_pearls_read', JSON.stringify(Array.from(readSet)));
+        } catch (e) {}
+      }
+
+      const sidebar = document.getElementById('sidebar');
+      const sidebarToggle = document.getElementById('sidebar-toggle');
+      const searchInput = document.getElementById('search-input');
+      const pearlList = document.getElementById('pearl-list');
+      const viewer = document.getElementById('pearl-viewer');
+      const activeSubtitle = document.getElementById('active-subtitle');
+      const progressPill = document.getElementById('progress-pill');
+      const markReadBtn = document.getElementById('mark-read-btn');
+      const shareBtn = document.getElementById('share-btn');
+      const countLabel = document.getElementById('count-label');
+      const toast = document.getElementById('toast');
+
+      function showToast(msg) {
+        toast.textContent = msg;
+        toast.classList.remove('hidden');
+        setTimeout(() => toast.classList.add('hidden'), 2400);
+      }
+
+      let sidebarOpen = window.innerWidth >= 1024;
+      function syncSidebar() {
+        sidebar.classList.toggle('-translate-x-full', !sidebarOpen);
+        sidebar.classList.toggle('hidden', !sidebarOpen && window.innerWidth >= 1024);
+      }
+      sidebarToggle.addEventListener('click', () => {
+        sidebarOpen = !sidebarOpen;
+        syncSidebar();
+      });
+      syncSidebar();
+
+      function updateHeader() {
+        const current = PEARLS.find(p => p.id === activeId) || PEARLS[0];
+        activeSubtitle.textContent = `${current.badge} · ${current.title}`;
+        progressPill.textContent = `${readSet.size} / ${PEARLS.length} Read`;
+        const isRead = readSet.has(current.id);
+        markReadBtn.textContent = isRead ? '✓ Marked Read' : 'Mark as Read';
+        markReadBtn.className = isRead
+          ? 'px-3 py-1.5 rounded-lg text-xs font-semibold bg-emerald-600 hover:bg-emerald-500 text-white transition'
+          : 'px-3 py-1.5 rounded-lg text-xs font-semibold bg-blue-600 hover:bg-blue-500 text-white transition';
+      }
+
+      function renderList() {
+        const q = (searchInput.value || '').trim().toLowerCase();
+        const filtered = PEARLS.filter(p =>
+          !q ||
+          p.title.toLowerCase().includes(q) ||
+          p.category.toLowerCase().includes(q) ||
+          p.badge.toLowerCase().includes(q) ||
+          p.summary.toLowerCase().includes(q)
+        );
+        countLabel.textContent = `${filtered.length} of ${PEARLS.length} briefs`;
+
+        if (!filtered.length) {
+          pearlList.innerHTML = '<div class="p-4 text-xs text-slate-500 text-center">No matching pearls found.</div>';
+          return;
+        }
+
+        pearlList.innerHTML = filtered.map(p => {
+          const isActive = p.id === activeId;
+          const isRead = readSet.has(p.id);
+          return `
+            <button type="button" data-id="${p.id}" class="pearl-item w-full text-left p-3 rounded-xl border transition ${isActive ? 'bg-blue-50 border-blue-400 shadow-sm' : 'bg-white border-slate-200 hover:bg-slate-50'}">
+              <div class="flex items-center justify-between gap-2 mb-1">
+                <span class="inline-flex items-center px-2 py-0.5 rounded-md text-[11px] font-bold ${isActive ? 'bg-blue-600 text-white' : 'bg-slate-100 text-slate-700'}">${p.badge}</span>
+                <span class="text-[11px] font-semibold ${isRead ? 'text-emerald-600' : 'text-slate-400'}">${isRead ? '✓ Read' : p.readTime}</span>
+              </div>
+              <div class="text-xs sm:text-sm font-bold text-slate-900 leading-snug">${p.title}</div>
+              <div class="text-[11px] text-slate-500 mt-1 line-clamp-2">${p.summary}</div>
+              <div class="flex items-center gap-2 mt-2 text-[10px] text-slate-500 font-medium">
+                <span>${p.category}</span>
+                ${p.figures > 0 ? `<span>· ${p.figures} figures</span>` : ''}
+              </div>
+            </button>
+          `;
+        }).join('');
+
+        pearlList.querySelectorAll('.pearl-item').forEach(btn => {
+          btn.addEventListener('click', () => {
+            selectPearl(btn.getAttribute('data-id'));
+            if (window.innerWidth < 1024) {
+              sidebarOpen = false;
+              syncSidebar();
+            }
+          });
+        });
+      }
+
+      function selectPearl(id) {
+        const p = PEARLS.find(x => x.id === id);
+        if (!p) return;
+        activeId = id;
+        viewer.src = p.url;
+        try {
+          const nextUrl = new URL(window.location.href);
+          nextUrl.searchParams.set('p', id);
+          window.history.replaceState({}, '', nextUrl.toString());
+        } catch (e) {}
+        updateHeader();
+        renderList();
+      }
+
+      markReadBtn.addEventListener('click', () => {
+        if (readSet.has(activeId)) readSet.delete(activeId);
+        else readSet.add(activeId);
+        saveRead();
+        updateHeader();
+        renderList();
+      });
+
+      shareBtn.addEventListener('click', () => {
+        const shareUrl = window.location.href;
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(shareUrl).then(() => showToast('Direct link copied!')).catch(() => showToast('Copy URL from address bar'));
+        } else {
+          showToast('Copy URL from address bar');
+        }
+      });
+
+      searchInput.addEventListener('input', renderList);
+      selectPearl(activeId);
+    })();
+  </script>
+</body>
+</html>
